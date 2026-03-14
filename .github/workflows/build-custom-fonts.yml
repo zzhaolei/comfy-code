@@ -1,0 +1,148 @@
+name: Build Custom Iosevka Fonts
+
+on: [push, workflow_dispatch]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build Fonts and Create Release
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'push' || github.actor != 'github-actions[bot]' }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+
+      - name: Install ttfautohint
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ttfautohint
+
+      - name: Resolve Font Families
+        id: families
+        shell: bash
+        run: |
+          cd get-all-families-in-private-build-plan
+          npm install
+          line="$(node ./index.mjs)"
+          json="${line#fontFamilies=}"
+          families="$(node -e 'const arr=JSON.parse(process.argv[1]); console.log(arr.join(" "));' "$json")"
+          if [[ -z "$families" ]]; then
+            echo "No build plans found in private-build-plans.toml" >&2
+            exit 1
+          fi
+          echo "list=$families" >> "$GITHUB_OUTPUT"
+
+      - name: Read Iosevka Version
+        id: iosevka-version
+        shell: bash
+        run: |
+          if [[ -f IOSEVKA_VERSION ]]; then
+            version="$(tr -d ' \t\n\r' < IOSEVKA_VERSION)"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout Iosevka Repository (pinned)
+        if: steps.iosevka-version.outputs.version != ''
+        uses: actions/checkout@v5
+        with:
+          repository: be5invis/iosevka
+          path: iosevka
+          ref: ${{ steps.iosevka-version.outputs.version }}
+
+      - name: Checkout Iosevka Repository (default)
+        if: steps.iosevka-version.outputs.version == ''
+        uses: actions/checkout@v5
+        with:
+          repository: be5invis/iosevka
+          path: iosevka
+
+      - name: Copy Custom Build Plans
+        shell: bash
+        run: |
+          cp private-build-plans.toml iosevka/private-build-plans.toml
+
+      - name: Build Fonts
+        shell: bash
+        working-directory: iosevka
+        run: |
+          npm install
+          for plan in ${{ steps.families.outputs.list }}; do
+            npm run build -- ttf::${plan}
+          done
+
+      - name: Prepare TTF Zip (Comfy Code)
+        shell: bash
+        run: |
+          families=(${{ steps.families.outputs.list }})
+          if [[ ${#families[@]} -eq 1 ]]; then
+            src="iosevka/dist/${families[0]}/TTF"
+            mv "$src" "Comfy Code"
+          else
+            mkdir -p "Comfy Code"
+            for plan in "${families[@]}"; do
+              src="iosevka/dist/${plan}/TTF"
+              if [[ -d "$src" ]]; then
+                cp -R "$src/." "Comfy Code/"
+              fi
+            done
+          fi
+          zip -r "Comfy Code-ttf.zip" "Comfy Code"
+
+      - name: Compute Next Version
+        id: version
+        shell: bash
+        run: |
+          if [[ ! -f VERSION ]]; then
+            echo "VERSION file missing" >&2
+            exit 1
+          fi
+          current="$(tr -d ' \t\n\r' < VERSION)"
+          if [[ ! "$current" =~ ^v1\.0\.[0-9]+$ ]]; then
+            echo "Invalid VERSION format: $current" >&2
+            exit 1
+          fi
+          num="${current##*.}"
+          next_num=$((num + 1))
+          next="v1.0.${next_num}"
+          git fetch --tags --force
+          while git rev-parse -q --verify "refs/tags/${next}" >/dev/null; do
+            next_num=$((next_num + 1))
+            next="v1.0.${next_num}"
+          done
+          echo "$next" > VERSION
+          echo "next=$next" >> "$GITHUB_OUTPUT"
+
+      - name: Commit Version File
+        id: commit
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add VERSION
+          if git diff --cached --quiet; then
+            echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "chore: bump version to ${{ steps.version.outputs.next }}"
+          git push
+          echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.next }}
+          name: ${{ steps.version.outputs.next }}
+          target_commitish: ${{ steps.commit.outputs.commit }}
+          generate_release_notes: true
+          files: "Comfy Code-ttf.zip"

@@ -1,2 +1,2 @@
-# comfy-code
+# Comfy Code
 A font for code.

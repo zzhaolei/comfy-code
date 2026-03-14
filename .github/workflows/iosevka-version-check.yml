@@ -1,0 +1,56 @@
+name: Check Iosevka Version
+
+on:
+  schedule:
+    - cron: "0 11 * * 0-6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    name: Check for Updates
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Fetch Latest Iosevka Release Tag
+        id: latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          tag="$(gh api repos/be5invis/iosevka/releases/latest --jq .tag_name)"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Read Current Version
+        id: current
+        shell: bash
+        run: |
+          if [[ -f IOSEVKA_VERSION ]]; then
+            current="$(tr -d ' \t\n\r' < IOSEVKA_VERSION)"
+          fi
+          echo "tag=$current" >> "$GITHUB_OUTPUT"
+
+      - name: Update Version File
+        id: update
+        if: steps.latest.outputs.tag != steps.current.outputs.tag
+        shell: bash
+        run: |
+          echo "${{ steps.latest.outputs.tag }}" > IOSEVKA_VERSION
+          echo "updated=true" >> "$GITHUB_OUTPUT"
+
+      - name: Create Pull Request
+        if: steps.update.outputs.updated == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: bump Iosevka to ${{ steps.latest.outputs.tag }}"
+          title: "chore: bump Iosevka to ${{ steps.latest.outputs.tag }}"
+          body: |
+            Automated update of IOSEVKA_VERSION to the latest Iosevka release.
+          branch: "chore/bump-iosevka-${{ steps.latest.outputs.tag }}"
+          delete-branch: true
