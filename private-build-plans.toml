@@ -54,6 +54,11 @@ shape = 700
 menu = 700
 css = 700
 
+[buildPlans.ComfyCode.weights.Medium]
+shape = 500
+menu = 500
+css = 500
+
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
 menu = 5
