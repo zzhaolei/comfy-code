@@ -149,10 +149,8 @@ jobs:
           specimen = Image.new("RGB", specimen_size, "white")
           specimen_draw = ImageDraw.Draw(specimen)
 
-          title_font = load_font(base_font, 72)
-          body_font = load_font(base_font, 40)
-          small_font = load_font(base_font, 32)
-
+          title_font = load_font(base_font, 80)
+          body_font = load_font(base_font, 48)
           y = 80
           y = draw_centered(specimen_draw, f"{display_name}", y, title_font, specimen_size[0])
           y += 20
@@ -165,7 +163,6 @@ jobs:
           for line in specimen_lines:
             y = draw_centered(specimen_draw, line, y, body_font, specimen_size[0])
           y += 10
-          draw_centered(specimen_draw, "Regular", y, small_font, specimen_size[0])
 
           specimen_path = OUTPUT_DIR / "specimen.png"
           specimen.save(specimen_path)
@@ -175,8 +172,7 @@ jobs:
           weight_image = Image.new("RGB", weight_size, "white")
           weight_draw = ImageDraw.Draw(weight_image)
 
-          weight_title_font = load_font(base_font, 60)
-          label_font = load_font(base_font, 28)
+          weight_title_font = load_font(base_font, 68)
           pangram = "A quick brown fox jumps over the lazy dog."
 
           entries = [
@@ -198,11 +194,10 @@ jobs:
           y = 70
           y = draw_centered(weight_draw, f"{display_name}", y, weight_title_font, weight_size[0])
           y += 30
-          for weight, font_path in weight_fonts:
-            sample_font = load_font(font_path, 44)
+          for _, font_path in weight_fonts:
+            sample_font = load_font(font_path, 52)
             line_height = int(sample_font.size * 1.7)
-            weight_draw.text((80, y + 10), weight, font=label_font, fill="black")
-            weight_draw.text((250, y), pangram, font=sample_font, fill="black")
+            weight_draw.text((80, y), pangram, font=sample_font, fill="black")
             y += line_height
 
           weight_path = OUTPUT_DIR / "weights.png"
