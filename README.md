@@ -17,3 +17,11 @@ Regular, Medium, and Bold with their italic counterparts shown using the pangram
 <p align="center">
   <img src="images/weights.png" alt="Comfy Code weights and italics preview" width="720" />
 </p>
+
+## Ligatures
+
+Common programming ligatures shown in context.
+
+<p align="center">
+  <img src="images/ligatures.png" alt="Comfy Code ligatures preview" width="720" />
+</p>

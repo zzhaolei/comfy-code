@@ -134,23 +134,41 @@ jobs:
           family = base_font.name.split("-")[0]
           display_name = re.sub(r"(?<!^)([A-Z])", r" \1", family)
 
-          def load_font(path: Path, size: int) -> ImageFont.FreeTypeFont:
+          def load_font(path: Path, size: int, prefer_raqm: bool = False) -> ImageFont.FreeTypeFont:
+            if prefer_raqm:
+              try:
+                return ImageFont.truetype(str(path), size, layout_engine=ImageFont.LAYOUT_RAQM)
+              except Exception:
+                pass
             return ImageFont.truetype(str(path), size)
 
-          def draw_centered(draw: ImageDraw.ImageDraw, text: str, y: int, font: ImageFont.FreeTypeFont, width: int) -> int:
-            bbox = draw.textbbox((0, 0), text, font=font)
+          def draw_centered(
+            draw: ImageDraw.ImageDraw,
+            text: str,
+            y: int,
+            font: ImageFont.FreeTypeFont,
+            width: int,
+            features: list[str] | None = None,
+          ) -> int:
+            try:
+              bbox = draw.textbbox((0, 0), text, font=font, features=features)
+            except (TypeError, ValueError):
+              bbox = draw.textbbox((0, 0), text, font=font)
             text_width = bbox[2] - bbox[0]
             x = int((width - text_width) / 2)
-            draw.text((x, y), text, font=font, fill="black")
+            text_kwargs = {"font": font, "fill": "black"}
+            if features and getattr(font, "layout_engine", None) == ImageFont.LAYOUT_RAQM:
+              text_kwargs["features"] = features
+            draw.text((x, y), text, **text_kwargs)
             return int(y + font.size * 1.4)
 
           # Specimen image
-          specimen_size = (1600, 900)
+          specimen_size = (1200, 700)
           specimen = Image.new("RGB", specimen_size, "white")
           specimen_draw = ImageDraw.Draw(specimen)
 
-          title_font = load_font(base_font, 80)
-          body_font = load_font(base_font, 48)
+          title_font = load_font(base_font, 84)
+          body_font = load_font(base_font, 52)
           y = 80
           y = draw_centered(specimen_draw, f"{display_name}", y, title_font, specimen_size[0])
           y += 20
@@ -202,6 +220,29 @@ jobs:
 
           weight_path = OUTPUT_DIR / "weights.png"
           weight_image.save(weight_path)
+
+          # Ligatures image
+          ligature_size = (1600, 900)
+          ligature_image = Image.new("RGB", ligature_size, "white")
+          ligature_draw = ImageDraw.Draw(ligature_image)
+
+          lig_title_font = load_font(base_font, 68, prefer_raqm=True)
+          lig_body_font = load_font(base_font, 52, prefer_raqm=True)
+          lig_features = ["liga", "clig", "calt"]
+          lig_lines = [
+            "!= !== == === <= >= => ->",
+            "<- <-> <=> <<= >>= :: :=",
+            "&& || ++ -- ** %% ?? .. ...",
+          ]
+
+          y = 80
+          y = draw_centered(ligature_draw, f"{display_name}", y, lig_title_font, ligature_size[0], lig_features)
+          y += 30
+          for line in lig_lines:
+            y = draw_centered(ligature_draw, line, y, lig_body_font, ligature_size[0], lig_features)
+
+          ligature_path = OUTPUT_DIR / "ligatures.png"
+          ligature_image.save(ligature_path)
 
           print(f"Saved {specimen_path} and {weight_path}")
           PY
