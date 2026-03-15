@@ -124,6 +124,7 @@ jobs:
           FONT_ROOT = Path("Comfy Code")
           OUTPUT_DIR = Path("images")
           OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+          LAYOUT_RAQM = getattr(ImageFont, "LAYOUT_RAQM", None)
 
           ttf_files = sorted(FONT_ROOT.rglob("*.ttf"))
           if not ttf_files:
@@ -135,9 +136,9 @@ jobs:
           display_name = re.sub(r"(?<!^)([A-Z])", r" \1", family)
 
           def load_font(path: Path, size: int, prefer_raqm: bool = False) -> ImageFont.FreeTypeFont:
-            if prefer_raqm:
+            if prefer_raqm and LAYOUT_RAQM is not None:
               try:
-                return ImageFont.truetype(str(path), size, layout_engine=ImageFont.LAYOUT_RAQM)
+                return ImageFont.truetype(str(path), size, layout_engine=LAYOUT_RAQM)
               except Exception:
                 pass
             return ImageFont.truetype(str(path), size)
@@ -150,14 +151,17 @@ jobs:
             width: int,
             features: list[str] | None = None,
           ) -> int:
+            bbox_kwargs = {"font": font}
+            if features and LAYOUT_RAQM is not None:
+              bbox_kwargs["features"] = features
             try:
-              bbox = draw.textbbox((0, 0), text, font=font, features=features)
+              bbox = draw.textbbox((0, 0), text, **bbox_kwargs)
             except (TypeError, ValueError):
               bbox = draw.textbbox((0, 0), text, font=font)
             text_width = bbox[2] - bbox[0]
             x = int((width - text_width) / 2)
             text_kwargs = {"font": font, "fill": "black"}
-            if features and getattr(font, "layout_engine", None) == ImageFont.LAYOUT_RAQM:
+            if features and LAYOUT_RAQM is not None and getattr(font, "layout_engine", None) == LAYOUT_RAQM:
               text_kwargs["features"] = features
             draw.text((x, y), text, **text_kwargs)
             return int(y + font.size * 1.4)
