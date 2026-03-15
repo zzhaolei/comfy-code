@@ -99,6 +99,111 @@ jobs:
           fi
           zip -r "Comfy Code-ttf.zip" "Comfy Code"
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Python Dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pillow
+
+      - name: Generate Specimen and Weight Images
+        shell: bash
+        run: |
+          python <<'PY'
+          from __future__ import annotations
+
+          import re
+          from pathlib import Path
+
+          from PIL import Image, ImageDraw, ImageFont
+
+          FONT_ROOT = Path("Comfy Code")
+          OUTPUT_DIR = Path("images")
+          OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+          ttf_files = sorted(FONT_ROOT.rglob("*.ttf"))
+          if not ttf_files:
+            raise SystemExit("No TTF files found in Comfy Code.")
+
+          regular_files = [p for p in ttf_files if p.name.endswith("-Regular.ttf")]
+          base_font = regular_files[0] if regular_files else ttf_files[0]
+          family = base_font.name.split("-")[0]
+          display_name = re.sub(r"(?<!^)([A-Z])", r" \\1", family)
+
+          def load_font(path: Path, size: int) -> ImageFont.FreeTypeFont:
+            return ImageFont.truetype(str(path), size)
+
+          def draw_centered(draw: ImageDraw.ImageDraw, text: str, y: int, font: ImageFont.FreeTypeFont, width: int) -> int:
+            bbox = draw.textbbox((0, 0), text, font=font)
+            text_width = bbox[2] - bbox[0]
+            x = int((width - text_width) / 2)
+            draw.text((x, y), text, font=font, fill="black")
+            return int(y + font.size * 1.4)
+
+          # Specimen image
+          specimen_size = (1600, 900)
+          specimen = Image.new("RGB", specimen_size, "white")
+          specimen_draw = ImageDraw.Draw(specimen)
+
+          title_font = load_font(base_font, 72)
+          body_font = load_font(base_font, 40)
+          small_font = load_font(base_font, 32)
+
+          y = 80
+          y = draw_centered(specimen_draw, f"{display_name} Specimen", y, title_font, specimen_size[0])
+          y += 20
+          specimen_lines = [
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "abcdefghijklmnopqrstuvwxyz",
+            "0123456789",
+            "!@#$%^&*()[]{}<>?/\\|+-=_;:,.\"'",
+          ]
+          for line in specimen_lines:
+            y = draw_centered(specimen_draw, line, y, body_font, specimen_size[0])
+          y += 10
+          draw_centered(specimen_draw, "Regular", y, small_font, specimen_size[0])
+
+          specimen_path = OUTPUT_DIR / "specimen.png"
+          specimen.save(specimen_path)
+
+          # Weight image
+          weight_size = (1600, 900)
+          weight_image = Image.new("RGB", weight_size, "white")
+          weight_draw = ImageDraw.Draw(weight_image)
+
+          weight_title_font = load_font(base_font, 60)
+          label_font = load_font(base_font, 28)
+          pangram = "A quick brown fox jumps over the lazy dog."
+
+          weights = ["Regular", "Medium", "Bold"]
+          weight_fonts = []
+          for weight in weights:
+            candidate = base_font.parent / f"{family}-{weight}.ttf"
+            if candidate.exists():
+              weight_fonts.append((weight, candidate))
+          if not weight_fonts:
+            weight_fonts.append(("Regular", base_font))
+
+          y = 70
+          y = draw_centered(weight_draw, f"{display_name} Weights", y, weight_title_font, weight_size[0])
+          y += 30
+          for weight, font_path in weight_fonts:
+            sample_font = load_font(font_path, 44)
+            line_height = int(sample_font.size * 1.7)
+            weight_draw.text((80, y + 10), weight, font=label_font, fill="black")
+            weight_draw.text((250, y), pangram, font=sample_font, fill="black")
+            y += line_height
+
+          weight_path = OUTPUT_DIR / "weights.png"
+          weight_image.save(weight_path)
+
+          print(f"Saved {specimen_path} and {weight_path}")
+          PY
+
       - name: Compute Next Version
         id: version
         shell: bash
@@ -123,13 +228,13 @@ jobs:
           echo "$next" > VERSION
           echo "next=$next" >> "$GITHUB_OUTPUT"
 
-      - name: Commit Version File
+      - name: Commit Version and Images
         id: commit
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add VERSION
+          git add VERSION images
           if git diff --cached --quiet; then
             echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
             exit 0
