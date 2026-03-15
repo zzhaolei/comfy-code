@@ -132,7 +132,7 @@ jobs:
           regular_files = [p for p in ttf_files if p.name.endswith("-Regular.ttf")]
           base_font = regular_files[0] if regular_files else ttf_files[0]
           family = base_font.name.split("-")[0]
-          display_name = re.sub(r"(?<!^)([A-Z])", r" \\1", family)
+          display_name = re.sub(r"(?<!^)([A-Z])", r" \1", family)
 
           def load_font(path: Path, size: int) -> ImageFont.FreeTypeFont:
             return ImageFont.truetype(str(path), size)
@@ -154,7 +154,7 @@ jobs:
           small_font = load_font(base_font, 32)
 
           y = 80
-          y = draw_centered(specimen_draw, f"{display_name} Specimen", y, title_font, specimen_size[0])
+          y = draw_centered(specimen_draw, f"{display_name}", y, title_font, specimen_size[0])
           y += 20
           specimen_lines = [
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -179,17 +179,24 @@ jobs:
           label_font = load_font(base_font, 28)
           pangram = "A quick brown fox jumps over the lazy dog."
 
-          weights = ["Regular", "Medium", "Bold"]
+          entries = [
+            ("Regular", f"{family}-Regular.ttf"),
+            ("Regular Italic", f"{family}-Italic.ttf"),
+            ("Medium", f"{family}-Medium.ttf"),
+            ("Medium Italic", f"{family}-MediumItalic.ttf"),
+            ("Bold", f"{family}-Bold.ttf"),
+            ("Bold Italic", f"{family}-BoldItalic.ttf"),
+          ]
           weight_fonts = []
-          for weight in weights:
-            candidate = base_font.parent / f"{family}-{weight}.ttf"
+          for label, filename in entries:
+            candidate = base_font.parent / filename
             if candidate.exists():
-              weight_fonts.append((weight, candidate))
+              weight_fonts.append((label, candidate))
           if not weight_fonts:
             weight_fonts.append(("Regular", base_font))
 
           y = 70
-          y = draw_centered(weight_draw, f"{display_name} Weights", y, weight_title_font, weight_size[0])
+          y = draw_centered(weight_draw, f"{display_name}", y, weight_title_font, weight_size[0])
           y += 30
           for weight, font_path in weight_fonts:
             sample_font = load_font(font_path, 44)

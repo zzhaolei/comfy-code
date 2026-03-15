@@ -6,10 +6,9 @@ noCvSs = true
 exportGlyphNames = true
 
 [buildPlans.ComfyCode.variants.design]
-one = "base"
 two = "straight-neck-serifless"
 three = "flat-top-serifless"
-zero = "tall-slashed"
+five = "oblique-arched-serifless"
 capital-g = "toothless-rounded-serifless-hooked"
 capital-j = "flat-hook-serifed"
 capital-q = "curly-tailed"
