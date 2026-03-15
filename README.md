@@ -20,7 +20,7 @@ Regular, Medium, and Bold with their italic counterparts shown using the pangram
 
 ## Ligatures
 
-Common programming ligatures shown in context.
+Using a restrained set of ligatures in context.
 
 <p align="center">
   <img src="images/ligatures.png" alt="Comfy Code ligatures preview" width="720" />
