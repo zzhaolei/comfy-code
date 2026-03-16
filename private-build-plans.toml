@@ -16,10 +16,8 @@ f = "flat-hook-serifless-crossbar-at-x-height"
 g = "double-storey"
 i = "hooky"
 j = "flat-hook-serifed"
-l = "serifed"
 r = "hookless-serifless"
 t = "flat-hook-short-neck"
-u = "toothless-rounded-serifless"
 w = "straight-flat-top-serifless"
 y = "straight-turn-serifless"
 punctuation-dot = "round"
@@ -53,6 +51,11 @@ css = 700
 shape = 500
 menu = 500
 css = 500
+
+[buildPlans.ComfyCode.weights.SemiBold]
+shape = 600
+menu = 600
+css = 600
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
