@@ -32,10 +32,13 @@ lig-equal-chain = "without-notch"
 lig-hyphen-chain = "without-notch"
 
 [buildPlans.ComfyCode.variants.italic]
+a = "single-storey-serifless"
+d = "toothed-serifless"
 f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
 k = "cursive-serifless"
 l = "serifed-flat-tailed"
+u = "toothed-serifless"
 
 [buildPlans.ComfyCode.weights.Regular]
 shape = 400
