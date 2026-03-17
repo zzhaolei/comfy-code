@@ -4,6 +4,7 @@ spacing = "normal"
 serifs = "sans"
 noCvSs = true
 exportGlyphNames = true
+webfontFormats = ['ttf']
 
 [buildPlans.ComfyCode.variants.design]
 two = "straight-neck-serifless"
