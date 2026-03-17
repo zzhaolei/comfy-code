@@ -260,17 +260,37 @@ jobs:
             exit 1
           fi
           current="$(tr -d ' \t\n\r' < VERSION)"
-          if [[ ! "$current" =~ ^v1\.0\.[0-9]+$ ]]; then
+          if [[ ! "$current" =~ ^(v)?([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
             echo "Invalid VERSION format: $current" >&2
+            echo "Expected v<major>.<minor>.<patch> (e.g. v1.0.9)" >&2
             exit 1
           fi
-          num="${current##*.}"
-          next_num=$((num + 1))
-          next="v1.0.${next_num}"
+          prefix="${BASH_REMATCH[1]}"
+          major="${BASH_REMATCH[2]}"
+          minor="${BASH_REMATCH[3]}"
+          patch="${BASH_REMATCH[4]}"
+          bump() {
+            local maj="$1"
+            local min="$2"
+            local pat="$3"
+            # Carry over with base-10 normalization (supports minor/patch >= 10).
+            pat=$((pat + 1))
+            while (( pat >= 10 )); do
+              pat=$((pat - 10))
+              min=$((min + 1))
+            done
+            while (( min >= 10 )); do
+              min=$((min - 10))
+              maj=$((maj + 1))
+            done
+            printf '%s %s %s\n' "$maj" "$min" "$pat"
+          }
+          read -r major minor patch < <(bump "$major" "$minor" "$patch")
+          next="${prefix}${major}.${minor}.${patch}"
           git fetch --tags --force
           while git rev-parse -q --verify "refs/tags/${next}" >/dev/null; do
-            next_num=$((next_num + 1))
-            next="v1.0.${next_num}"
+            read -r major minor patch < <(bump "$major" "$minor" "$patch")
+            next="${prefix}${major}.${minor}.${patch}"
           done
           echo "$next" > VERSION
           echo "next=$next" >> "$GITHUB_OUTPUT"
