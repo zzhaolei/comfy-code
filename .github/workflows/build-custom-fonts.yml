@@ -235,6 +235,7 @@ jobs:
           lig_features = ["liga", "clig", "calt"]
           lig_lines = [
             "<- -> == != !== <= >=",
+            "=> ==> <==> <===",
             "+= -= *= :=",
           ]
 

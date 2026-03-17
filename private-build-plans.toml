@@ -79,6 +79,6 @@ css = "italic"
 
 [buildPlans.ComfyCode.ligations]
 enables = [
-    "arrow-hyphen", "exeq", "lteq", "gteq",
+    "arrow-hyphen", "arrow-equal", "exeq", "lteq", "gteq",
     "center-ops", "center-op-trigger-equal-r", "center-op-trigger-equal-l", "center-op-influence-colon",
 ]
