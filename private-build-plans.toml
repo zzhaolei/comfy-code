@@ -34,6 +34,7 @@ lig-hyphen-chain = "without-notch"
 [buildPlans.ComfyCode.variants.italic]
 a = "single-storey-serifless"
 d = "toothed-serifless"
+e = "flat-crossbar"
 f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
 k = "cursive-serifless"
