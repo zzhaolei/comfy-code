@@ -3,7 +3,7 @@ family = "Comfy Code"
 spacing = "normal"
 serifs = "sans"
 noCvSs = true
-exportGlyphNames = false
+exportGlyphNames = true
 
 [buildPlans.ComfyCode.variants.design]
 two = "straight-neck-serifless"
