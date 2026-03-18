@@ -4,7 +4,6 @@ spacing = "normal"
 serifs = "sans"
 noCvSs = true
 exportGlyphNames = false
-webfontFormats = ["ttf"]
 
 [buildPlans.ComfyCode.variants.design]
 two = "straight-neck-serifless"
@@ -16,6 +15,7 @@ capital-g = "toothless-rounded-serifless-hooked"
 capital-j = "flat-hook-serifed"
 capital-q = "curly-tailed"
 f = "flat-hook-serifless-crossbar-at-x-height"
+i = "hooky"
 j = "flat-hook-serifed"
 r = "hookless-serifless"
 t = "flat-hook-short-neck"
@@ -53,15 +53,15 @@ shape = 700
 menu = 700
 css = 700
 
+[buildPlans.ComfyCode.weights.Light]
+shape = 300
+menu = 300
+css = 300
+
 [buildPlans.ComfyCode.weights.Medium]
 shape = 500
 menu = 500
 css = 500
-
-[buildPlans.ComfyCode.weights.SemiBold]
-shape = 600
-menu = 600
-css = 600
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
