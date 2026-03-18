@@ -3,13 +3,14 @@ family = "Comfy Code"
 spacing = "normal"
 serifs = "sans"
 noCvSs = true
-exportGlyphNames = true
+exportGlyphNames = false
 
 [buildPlans.ComfyCode.variants.design]
 two = "straight-neck-serifless"
 three = "flat-top-serifless"
 five = "oblique-arched-serifless"
 six = "open-contour"
+eight = "two-circles"
 nine = "open-contour"
 capital-g = "toothless-rounded-serifless-hooked"
 capital-j = "flat-hook-serifed"
@@ -27,7 +28,7 @@ asterisk = "penta-mid"
 brace = "straight"
 guillemet = "straight"
 number-sign = "slanted"
-ampersand = "closed"
+ampersand = "upper-open"
 at = "threefold"
 question = "smooth"
 lig-ltgteq = "slanted"
