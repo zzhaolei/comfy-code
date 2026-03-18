@@ -1,20 +1,21 @@
 [buildPlans.ComfyCode]
 family = "Comfy Code"
-spacing = "term"
+spacing = "normal"
 serifs = "sans"
 noCvSs = true
-exportGlyphNames = true
-webfontFormats = ['ttf']
+exportGlyphNames = false
+webfontFormats = ["ttf"]
 
 [buildPlans.ComfyCode.variants.design]
 two = "straight-neck-serifless"
 three = "flat-top-serifless"
 five = "oblique-arched-serifless"
+six = "open-contour"
+nine = "open-contour"
 capital-g = "toothless-rounded-serifless-hooked"
 capital-j = "flat-hook-serifed"
 capital-q = "curly-tailed"
 f = "flat-hook-serifless-crossbar-at-x-height"
-i = "hooky"
 j = "flat-hook-serifed"
 r = "hookless-serifless"
 t = "flat-hook-short-neck"
@@ -29,6 +30,7 @@ number-sign = "slanted"
 ampersand = "closed"
 at = "threefold"
 question = "smooth"
+lig-ltgteq = "slanted"
 lig-equal-chain = "without-notch"
 lig-hyphen-chain = "without-notch"
 
@@ -40,7 +42,6 @@ f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
 k = "cursive-serifless"
 l = "serifed-flat-tailed"
-# u = "toothed-serifless"
 
 [buildPlans.ComfyCode.weights.Regular]
 shape = 400
@@ -84,3 +85,6 @@ enables = [
     "arrow-hyphen", "arrow-equal", "exeq", "lteq", "gteq",
     "center-ops", "center-op-trigger-equal-r", "center-op-trigger-equal-l", "center-op-influence-colon",
 ]
+
+[buildPlans.ComfyCode.metricOverride]
+sb = 85
