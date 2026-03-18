@@ -198,6 +198,8 @@ jobs:
           pangram = "A quick brown fox jumps over the lazy dog."
 
           entries = [
+            ("Light", f"{family}-Light.ttf"),
+            ("Light Italic", f"{family}-LightItalic.ttf"),
             ("Regular", f"{family}-Regular.ttf"),
             ("Regular Italic", f"{family}-Italic.ttf"),
             ("Medium", f"{family}-Medium.ttf"),

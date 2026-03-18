@@ -12,7 +12,7 @@ A quick at-a-glance view of letterforms, numerals, and punctuation.
 
 ## Weights & Italics
 
-Regular, Medium, and Bold with their italic counterparts shown using the pangram.
+Light, Regular, Medium, and Bold, each shown in roman and italic with the pangram.
 
 <p align="center">
   <img src="images/weights.png" alt="Comfy Code weights and italics preview" width="720" />
