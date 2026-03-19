@@ -78,26 +78,108 @@ jobs:
         run: |
           npm install
           for plan in ${{ steps.families.outputs.list }}; do
-            npm run build -- ttf::${plan}
+            npm run build -- contents::${plan}
           done
 
-      - name: Prepare TTF Zip (Comfy Code)
+      - name: Prepare Release Zips
         shell: bash
         run: |
+          set -euo pipefail
           families=(${{ steps.families.outputs.list }})
-          if [[ ${#families[@]} -eq 1 ]]; then
-            src="iosevka/dist/${families[0]}/TTF"
-            mv "$src" "Comfy Code"
-          else
-            mkdir -p "Comfy Code"
+
+          prepare_single_dir() {
+            local label="$1"
+            local src_dir="$2"
+            local dest_dir="$3"
+            local plan="${families[0]}"
+            local src="iosevka/dist/${plan}/${src_dir}"
+            if [[ ! -d "$src" ]]; then
+              echo "Missing ${label} output: ${src}" >&2
+              exit 1
+            fi
+            rm -rf "$dest_dir"
+            cp -R "$src" "$dest_dir"
+          }
+
+          prepare_multi_dir() {
+            local label="$1"
+            local src_dir="$2"
+            local dest_dir="$3"
+            rm -rf "$dest_dir"
+            mkdir -p "$dest_dir"
             for plan in "${families[@]}"; do
-              src="iosevka/dist/${plan}/TTF"
-              if [[ -d "$src" ]]; then
-                cp -R "$src/." "Comfy Code/"
+              local src="iosevka/dist/${plan}/${src_dir}"
+              if [[ ! -d "$src" ]]; then
+                echo "Missing ${label} output for ${plan}: ${src_dir}" >&2
+                exit 1
+              fi
+              cp -R "$src/." "$dest_dir/"
+            done
+          }
+
+          pick_webfont_dir() {
+            local plan="$1"
+            local base="iosevka/dist/${plan}"
+            local candidates=(webfont Webfont WEB WOFF2)
+            for dir in "${candidates[@]}"; do
+              if [[ -d "${base}/${dir}" ]]; then
+                echo "${base}/${dir}"
+                return 0
               fi
             done
+            return 1
+          }
+
+          copy_webfont_files() {
+            local plan="$1"
+            local dest_dir="$2"
+            local base="iosevka/dist/${plan}"
+            local src_dir=""
+            if src_dir="$(pick_webfont_dir "$plan")"; then
+              cp -R "$src_dir/." "$dest_dir/"
+            fi
+            if ! compgen -G "$dest_dir/*.woff2" >/dev/null; then
+              mapfile -t woff2_files < <(find "$base" -maxdepth 2 -type f -name '*.woff2' ! -path '*Unhinted*')
+              if (( ${#woff2_files[@]} == 0 )); then
+                mapfile -t woff2_files < <(find "$base" -maxdepth 2 -type f -name '*.woff2')
+              fi
+              if (( ${#woff2_files[@]} > 0 )); then
+                cp "${woff2_files[@]}" "$dest_dir/"
+              fi
+            fi
+            mapfile -t css_files < <(find "$base" -maxdepth 1 -type f -name '*.css')
+            if (( ${#css_files[@]} > 0 )); then
+              for css in "${css_files[@]}"; do
+                cp "$css" "$dest_dir/$(basename "$css")"
+              done
+            fi
+            if [[ -z "$(ls -A "$dest_dir")" ]]; then
+              echo "Missing webfont output for ${plan}" >&2
+              exit 1
+            fi
+          }
+
+          if [[ ${#families[@]} -eq 1 ]]; then
+            prepare_single_dir "hinted TTF" "TTF" "Comfy Code"
+            prepare_single_dir "unhinted TTF" "TTF-Unhinted" "Comfy Code Unhinted"
+            rm -rf "Comfy Code Webfont"
+            mkdir -p "Comfy Code Webfont"
+            copy_webfont_files "${families[0]}" "Comfy Code Webfont"
+          else
+            prepare_multi_dir "hinted TTF" "TTF" "Comfy Code"
+            prepare_multi_dir "unhinted TTF" "TTF-Unhinted" "Comfy Code Unhinted"
+            rm -rf "Comfy Code Webfont"
+            mkdir -p "Comfy Code Webfont"
+            for plan in "${families[@]}"; do
+              plan_dir="Comfy Code Webfont/${plan}"
+              mkdir -p "$plan_dir"
+              copy_webfont_files "$plan" "$plan_dir"
+            done
           fi
-          zip -r "Comfy Code-ttf.zip" "Comfy Code"
+
+          zip -r "ComfyCode-hinted.zip" "Comfy Code"
+          zip -r "ComfyCode-unhinted.zip" "Comfy Code Unhinted"
+          zip -r "ComfyCode-webfont.zip" "Comfy Code Webfont"
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -319,4 +401,7 @@ jobs:
           name: ${{ steps.version.outputs.next }}
           target_commitish: ${{ steps.commit.outputs.commit }}
           generate_release_notes: true
-          files: "Comfy Code-ttf.zip"
+          files: |
+            ComfyCode-hinted.zip
+            ComfyCode-unhinted.zip
+            ComfyCode-webfont.zip

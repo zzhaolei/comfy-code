@@ -43,27 +43,26 @@ e = "flat-crossbar"
 f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
 k = "cursive-serifless"
-l = "serifed-flat-tailed"
-
-[buildPlans.ComfyCode.weights.Regular]
-shape = 400
-menu = 400
-css = 400
-
-[buildPlans.ComfyCode.weights.Bold]
-shape = 700
-menu = 700
-css = 700
 
 [buildPlans.ComfyCode.weights.Light]
 shape = 300
 menu = 300
 css = 300
 
+[buildPlans.ComfyCode.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
 [buildPlans.ComfyCode.weights.Medium]
 shape = 500
 menu = 500
 css = 500
+
+[buildPlans.ComfyCode.weights.Bold]
+shape = 700
+menu = 700
+css = 700
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
