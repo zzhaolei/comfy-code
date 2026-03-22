@@ -45,6 +45,7 @@ f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
 k = "cursive-serifless"
 x = "semi-chancery-straight-serifless"
+y = "cursive-flat-hook-serifless"
 
 [buildPlans.ComfyCode.weights.Light]
 shape = 300
