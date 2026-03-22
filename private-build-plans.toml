@@ -9,84 +9,40 @@ exportGlyphNames = false
 two = "straight-neck-serifless"
 three = "flat-top-serifless"
 five = "oblique-arched-serifless"
-six = "open-contour"
 eight = "two-circles"
-nine = "open-contour"
 zero = "long-dotted"
 capital-d = "more-rounded-serifless"
 capital-g = "toothless-rounded-serifless-hooked"
 capital-j = "flat-hook-serifed"
-capital-q = "curly-tailed"
+capital-q = "straight"
 f = "flat-hook-serifless-crossbar-at-x-height"
-i = "serifed-flat-tailed"
+g = "single-storey-flat-hook-serifless"
 j = "flat-hook-serifed"
 l = "serifed-flat-tailed"
 r = "hookless-serifless"
 t = "flat-hook-short-neck"
 u = "toothless-rounded-serifless"
 w = "straight-flat-top-serifless"
-y = "straight-turn-serifless"
 punctuation-dot = "round"
-asterisk = "penta-mid"
+asterisk = "penta-low"
 brace = "straight"
 guillemet = "straight"
 number-sign = "slanted"
 ampersand = "upper-open"
 at = "threefold"
 percent = "rings-continuous-slash"
-question = "smooth"
+question = "corner-flat-hooked"
 lig-ltgteq = "slanted"
 lig-equal-chain = "without-notch"
 lig-hyphen-chain = "without-notch"
 
 [buildPlans.ComfyCode.variants.italic]
-a = "single-storey-serifless"
 d = "toothed-serifless"
 f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
 k = "cursive-serifless"
 x = "semi-chancery-straight-serifless"
 y = "cursive-flat-hook-serifless"
-
-[buildPlans.ComfyCode.weights.Regular]
-shape = 400
-menu = 400
-css = 400
-
-[buildPlans.ComfyCode.weights.Bold]
-shape = 700
-menu = 700
-css = 700
-
-[buildPlans.ComfyCode.weights.Thin]
-shape = 100
-menu = 100
-css = 100
-
-[buildPlans.ComfyCode.weights.ExtraLight]
-shape = 200
-menu = 200
-css = 200
-
-[buildPlans.ComfyCode.weights.Light]
-shape = 300
-menu = 300
-css = 300
-
-[buildPlans.ComfyCode.weights.Medium]
-shape = 500
-menu = 500
-css = 500
-
-[buildPlans.ComfyCode.weights.SemiBold]
-shape = 600
-menu = 600
-css = 600
-
-[buildPlans.ComfyCode.weights.ExtraBold]
-shape = 800
-menu = 800
-css = 800
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
