@@ -41,7 +41,6 @@ d = "toothed-serifless"
 f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
 l = "serifed-flat-tailed"
-x = "semi-chancery-straight-serifless"
 y = "cursive-flat-hook-serifless"
 
 [buildPlans.ComfyCode.widths.Normal]
