@@ -21,10 +21,20 @@ jobs:
       - name: Fetch Latest Iosevka Release Tag
         id: latest
         env:
-          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          tag="$(gh api repos/be5invis/iosevka/releases/latest --jq .tag_name)"
+          tag="$(
+            curl -fsSL \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+              https://api.github.com/repos/be5invis/Iosevka/releases/latest \
+            | python3 -c 'import json, sys; print(json.load(sys.stdin)["tag_name"])'
+          )"
+          if [[ -z "$tag" ]]; then
+            echo "Failed to resolve the latest Iosevka release tag." >&2
+            exit 1
+          fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
       - name: Read Current Version
@@ -48,6 +58,7 @@ jobs:
         if: steps.update.outputs.updated == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ github.token }}
           commit-message: "chore: bump Iosevka to ${{ steps.latest.outputs.tag }}"
           title: "chore: bump Iosevka to ${{ steps.latest.outputs.tag }}"
           body: |
