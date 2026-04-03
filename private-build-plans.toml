@@ -16,9 +16,7 @@ capital-g = "toothless-rounded-serifless-hooked"
 capital-j = "serifless"
 capital-q = "straight"
 f = "flat-hook-serifless-crossbar-at-x-height"
-i = "hooky"
 j = "flat-hook-serifed"
-l = "serifed-flat-tailed"
 r = "hookless-serifless"
 t = "flat-hook-short-neck"
 u = "toothless-rounded-serifless"
@@ -42,6 +40,7 @@ a = "single-storey-serifless"
 d = "toothed-serifless"
 f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
+l = "serifed-flat-tailed"
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
