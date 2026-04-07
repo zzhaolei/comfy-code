@@ -21,7 +21,6 @@ r = "hookless-serifless"
 t = "flat-hook-short-neck"
 u = "toothless-rounded-serifless"
 w = "straight-flat-top-serifless"
-y = "straight-turn-serifless"
 punctuation-dot = "round"
 asterisk = "penta-mid"
 brace = "straight"
@@ -41,6 +40,7 @@ d = "toothed-serifless"
 f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
 l = "serifed-flat-tailed"
+y = "straight-turn-serifless"
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
