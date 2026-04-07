@@ -21,6 +21,7 @@ r = "hookless-serifless"
 t = "flat-hook-short-neck"
 u = "toothless-rounded-serifless"
 w = "straight-flat-top-serifless"
+y = "straight-turn-serifless"
 punctuation-dot = "round"
 asterisk = "penta-mid"
 brace = "straight"
@@ -33,14 +34,12 @@ lig-equal-chain = "without-notch"
 lig-hyphen-chain = "without-notch"
 
 [buildPlans.ComfyCode.variants.italic]
-k = "straight-serifless"
-
 a = "single-storey-serifless"
 d = "toothed-serifless"
 e = "flat-crossbar"
 i = "serifed-flat-tailed"
+k = "straight-serifless"
 l = "serifed-flat-tailed"
-y = "straight-serifless"
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
