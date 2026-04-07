@@ -37,10 +37,9 @@ k = "straight-serifless"
 
 a = "single-storey-serifless"
 d = "toothed-serifless"
-f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-flat-tailed"
 l = "serifed-flat-tailed"
-y = "straight-turn-serifless"
+y = "straight-serifless"
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
