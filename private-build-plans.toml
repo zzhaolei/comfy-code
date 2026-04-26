@@ -41,9 +41,9 @@ lig-hyphen-chain = "without-notch"
 a = "single-storey-serifless"
 d = "toothed-serifless"
 e = "flat-crossbar"
-i = "serifed-flat-tailed"
+i = "serifed-semi-tailed"
 k = "straight-serifless"
-l = "serifed-flat-tailed"
+l = "serifed-semi-tailed"
 u = "toothed-serifless"
 
 [buildPlans.ComfyCode.widths.Normal]
