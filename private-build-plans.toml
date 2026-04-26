@@ -1,29 +1,34 @@
 [buildPlans.ComfyCode]
 family = "Comfy Code"
-spacing = "term"
+spacing = "fontconfig-mono"
 serifs = "sans"
 noCvSs = true
 exportGlyphNames = true
+
+[buildPlans.ComfyCode.namingOverride]
+manufacturer = "zzhaolei"
+description = "Comfy Code is a custom build of Iosevka, a monospace font family for programming."
+urlVendor = "https://github.com/zzhaolei/comfy-code"
 
 [buildPlans.ComfyCode.variants.design]
 one = "base"
 two = "straight-neck-serifless"
 three = "flat-top-serifless"
-five = "oblique-arched-serifless"
+five = "oblique-flat-serifless"
+six = "open-contour"
 eight = "two-circles"
-zero = "long-dotted"
+nine = "open-contour"
+zero = "dotted"
 capital-g = "toothless-rounded-serifless-hooked"
 capital-q = "crossing"
 f = "flat-hook-serifless-crossbar-at-x-height"
 j = "flat-hook-serifed"
-r = "compact-serifless"
-t = "flat-hook-short-neck"
-u = "toothless-rounded-serifless"
+r = "hookless-serifless"
+t = "flat-hook"
 w = "straight-flat-top-serifless"
 y = "straight-turn-serifless"
 punctuation-dot = "round"
 asterisk = "penta-mid"
-brace = "straight"
 guillemet = "straight"
 number-sign = "slanted"
 ampersand = "upper-open"
@@ -39,6 +44,7 @@ e = "flat-crossbar"
 i = "serifed-flat-tailed"
 k = "straight-serifless"
 l = "serifed-flat-tailed"
+u = "toothed-serifless"
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
