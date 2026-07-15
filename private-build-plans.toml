@@ -1,9 +1,10 @@
 [buildPlans.ComfyCode]
 family = "Comfy Code"
-spacing = "fontconfig-mono"
+spacing = "fixed"
 serifs = "sans"
 noCvSs = true
 exportGlyphNames = true
+noLigation = true
 
 [buildPlans.ComfyCode.namingOverride]
 manufacturer = "zzhaolei"
@@ -77,9 +78,3 @@ angle = 9.4
 shape = "italic"
 menu = "italic"
 css = "italic"
-
-[buildPlans.ComfyCode.ligations]
-enables = [
-    "arrow-hyphen", "arrow-equal", "exeq", "exeqeq", "lteq", "gteq",
-    "center-ops", "center-op-trigger-equal-r", "center-op-trigger-equal-l", "center-op-influence-colon",
-]

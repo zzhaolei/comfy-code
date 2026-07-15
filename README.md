@@ -17,11 +17,3 @@ Light, Regular, Medium, and Bold, each shown in roman and italic with the pangra
 <p align="center">
   <img src="images/weights.png" alt="Comfy Code weights and italics preview" width="720" />
 </p>
-
-## Ligatures
-
-Using a restrained set of ligatures in context.
-
-<p align="center">
-  <img src="images/ligatures.png" alt="Comfy Code ligatures preview" width="720" />
-</p>
