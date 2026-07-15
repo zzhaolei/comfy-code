@@ -11,24 +11,19 @@ description = "Comfy Code is a custom build of Iosevka, a monospace font family 
 urlVendor = "https://github.com/zzhaolei/comfy-code"
 
 [buildPlans.ComfyCode.variants.design]
-one = "base"
 two = "straight-neck-serifless"
 three = "flat-top-serifless"
 five = "oblique-flat-serifless"
-six = "open-contour"
 eight = "two-circles"
-nine = "open-contour"
-zero = "dotted"
+capital-d = "more-rounded-serifless"
 capital-g = "toothless-rounded-serifless-hooked"
-capital-q = "crossing"
 f = "flat-hook-serifless-crossbar-at-x-height"
 j = "flat-hook-serifed"
 r = "hookless-serifless"
 t = "flat-hook-short-neck"
 w = "straight-flat-top-serifless"
 y = "straight-turn-serifless"
-punctuation-dot = "round"
-asterisk = "penta-mid"
+# asterisk = "penta-mid"
 guillemet = "straight"
 number-sign = "slanted"
 ampersand = "upper-open"
@@ -38,16 +33,33 @@ lig-equal-chain = "without-notch"
 lig-hyphen-chain = "without-notch"
 
 [buildPlans.ComfyCode.variants.italic]
+a = "double-storey-serifless"
+d = "toothed-serifless"
 e = "flat-crossbar"
 f = "flat-hook-tailed-crossbar-at-x-height"
 i = "serifed-semi-tailed"
-k = "straight-serifless"
 l = "serifed-semi-tailed"
+u = "toothed-serifless"
 
-[buildPlans.ComfyCode.widths.Normal]
+[buildPlans.ComfyCode.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.ComfyCode.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.ComfyCode.weights.Medium]
+shape = 500
+menu = 500
+css = 500
+
+[buildPlans.ComfyCode.weights.SemiBold]
 shape = 600
-menu = 5
-css = "normal"
+menu = 600
+css = 600
 
 [buildPlans.ComfyCode.slopes.Upright]
 angle = 0
