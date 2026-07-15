@@ -41,8 +41,8 @@ jobs:
         id: current
         shell: bash
         run: |
-          if [[ -f src/IOSEVKA_VERSION ]]; then
-            current="$(tr -d ' \t\n\r' < src/IOSEVKA_VERSION)"
+          if [[ -f IOSEVKA_VERSION ]]; then
+            current="$(tr -d ' \t\n\r' < IOSEVKA_VERSION)"
           fi
           echo "tag=$current" >> "$GITHUB_OUTPUT"
 
@@ -51,7 +51,7 @@ jobs:
         if: steps.latest.outputs.tag != steps.current.outputs.tag
         shell: bash
         run: |
-          echo "${{ steps.latest.outputs.tag }}" > src/IOSEVKA_VERSION
+          echo "${{ steps.latest.outputs.tag }}" > IOSEVKA_VERSION
           echo "updated=true" >> "$GITHUB_OUTPUT"
 
       - name: Create Pull Request
@@ -62,6 +62,6 @@ jobs:
           commit-message: "chore: bump Iosevka to ${{ steps.latest.outputs.tag }}"
           title: "chore: bump Iosevka to ${{ steps.latest.outputs.tag }}"
           body: |
-            Automated update of src/IOSEVKA_VERSION to the latest Iosevka release.
+            Automated update of IOSEVKA_VERSION to the latest Iosevka release.
           branch: "chore/bump-iosevka-${{ steps.latest.outputs.tag }}"
           delete-branch: true
