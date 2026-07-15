@@ -42,25 +42,10 @@ i = "serifed-semi-tailed"
 l = "serifed-semi-tailed"
 u = "toothed-serifless"
 
-[buildPlans.ComfyCode.weights.Regular]
-shape = 400
-menu = 400
-css = 400
-
-[buildPlans.ComfyCode.weights.Bold]
-shape = 700
-menu = 700
-css = 700
-
-[buildPlans.ComfyCode.weights.Medium]
+[buildPlans.ComfyCode.widths.Condensed]
 shape = 500
-menu = 500
-css = 500
-
-[buildPlans.ComfyCode.weights.SemiBold]
-shape = 600
-menu = 600
-css = 600
+menu = 3
+css = "condensed"
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
