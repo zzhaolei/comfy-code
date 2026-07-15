@@ -23,7 +23,7 @@ r = "hookless-serifless"
 t = "flat-hook-short-neck"
 w = "straight-flat-top-serifless"
 y = "straight-turn-serifless"
-# asterisk = "penta-mid"
+asterisk = "penta-mid"
 guillemet = "straight"
 number-sign = "slanted"
 ampersand = "upper-open"
@@ -60,6 +60,11 @@ css = 500
 shape = 600
 menu = 600
 css = 600
+
+[buildPlans.ComfyCode.widths.Normal]
+shape = 600
+menu = 5
+css = "normal"
 
 [buildPlans.ComfyCode.slopes.Upright]
 angle = 0
