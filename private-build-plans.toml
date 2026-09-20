@@ -64,10 +64,3 @@ angle = 9.4
 shape = "italic"
 menu = "italic"
 css = "italic"
-
-[buildPlans.ComfyCode.metricOverride]
-xHeight = 547
-cap = 729
-ascender = 760
-sb = 'default_sb + 6'
-leading = 1300
