@@ -18,9 +18,8 @@ eight = "two-circles"
 capital-d = "more-rounded-serifless"
 capital-g = "toothless-rounded-serifless-hooked"
 f = "flat-hook-serifless-crossbar-at-x-height"
-i = "serifed-flat-tailed"
+capital-q = "crossing"
 j = "flat-hook-serifed"
-l = "serifed-flat-tailed"
 r = "hookless-serifless"
 t = "flat-hook-short-neck2"
 w = "straight-flat-top-serifless"
@@ -39,6 +38,8 @@ a = "double-storey-serifless"
 d = "toothed-serifless"
 e = "flat-crossbar"
 f = "flat-hook-tailed-crossbar-at-x-height"
+i = "serifed-flat-tailed"
+l = "serifed-flat-tailed"
 u = "toothed-serifless"
 y = "straight-serifless"
 
@@ -63,3 +64,10 @@ angle = 9.4
 shape = "italic"
 menu = "italic"
 css = "italic"
+
+[buildPlans.ComfyCode.metricOverride]
+xHeight = 547
+cap = 729
+ascender = 760
+leading = 1164
+sb = 67
