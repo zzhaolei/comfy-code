@@ -69,5 +69,5 @@ css = "italic"
 xHeight = 547
 cap = 729
 ascender = 760
-leading = 1164
-sb = 67
+sb = 'default_sb + 6'
+leading = 1300
