@@ -66,5 +66,8 @@ menu = "italic"
 css = "italic"
 
 [buildPlans.ComfyCode.metricOverride]
-xHeight = 560
+xHeight = 547
+cap = 729
 ascender = 760
+leading = 1164
+sb = 67
