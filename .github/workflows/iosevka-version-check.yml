@@ -7,7 +7,11 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
+  actions: write
+
+concurrency:
+  group: iosevka-version-check
+  cancel-in-progress: false
 
 jobs:
   check:
@@ -17,6 +21,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
 
       - name: Fetch Latest Iosevka Release Tag
         id: latest
@@ -31,8 +38,8 @@ jobs:
               https://api.github.com/repos/be5invis/Iosevka/releases/latest \
             | python3 -c 'import json, sys; print(json.load(sys.stdin)["tag_name"])'
           )"
-          if [[ -z "$tag" ]]; then
-            echo "Failed to resolve the latest Iosevka release tag." >&2
+          if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid Iosevka release tag: $tag" >&2
             exit 1
           fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
@@ -46,22 +53,27 @@ jobs:
           fi
           echo "tag=$current" >> "$GITHUB_OUTPUT"
 
-      - name: Update Version File
+      - name: Commit Version Update to Main
         id: update
         if: steps.latest.outputs.tag != steps.current.outputs.tag
+        env:
+          LATEST_TAG: ${{ steps.latest.outputs.tag }}
         shell: bash
         run: |
-          echo "${{ steps.latest.outputs.tag }}" > IOSEVKA_VERSION
+          printf '%s\n' "$LATEST_TAG" > IOSEVKA_VERSION
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add IOSEVKA_VERSION
+          git commit -m "chore: bump Iosevka to $LATEST_TAG"
+          git pull --rebase origin main
+          git push origin HEAD:main
           echo "updated=true" >> "$GITHUB_OUTPUT"
 
-      - name: Create Pull Request
+      # Pushes made with GITHUB_TOKEN do not trigger the build's push event.
+      - name: Trigger Font Build and Release
         if: steps.update.outputs.updated == 'true'
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ github.token }}
-          commit-message: "chore: bump Iosevka to ${{ steps.latest.outputs.tag }}"
-          title: "chore: bump Iosevka to ${{ steps.latest.outputs.tag }}"
-          body: |
-            Automated update of IOSEVKA_VERSION to the latest Iosevka release.
-          branch: "chore/bump-iosevka-${{ steps.latest.outputs.tag }}"
-          delete-branch: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: gh workflow run build-custom-fonts.yml --ref main
