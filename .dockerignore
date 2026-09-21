@@ -1,0 +1,8 @@
+**
+!Dockerfile
+!IOSEVKA_VERSION
+!.github/
+!.github/patches/
+!.github/patches/iosevka-custom-variants.patch
+!docker/
+!docker/build.mjs

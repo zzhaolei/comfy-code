@@ -1,0 +1,139 @@
+--- a/params/variants.toml
++++ b/params/variants.toml
+@@ -2631,12 +2631,26 @@
+ 
+ [prime.c.variants.serifless]
+ rank = 1
+ description = "Serifless `c`"
+ selector.c = "serifless"
+ selector."c/sansSerif" = "serifless"
++selector."c/descBase" = "serifless"
++selector.cCurlyTail = "serifless"
++selector.cHookTop = "unilateralSerifed"
++selector.oOpen = "serifless"
++selector."oOpen/descBase" = "bottomSerifed"
++selector."c/topSerif" = "serifless"
++selector."c/bottomSerif" = "serifless"
++
++# Comfy Code: retain the original c variants and add an opt-in open form.
++[prime.c.variants.open-serifless]
++rank = 6
++description = "Serifless `c` with a wider aperture (Comfy Code)"
++selector.c = "openSerifless"
++selector."c/sansSerif" = "openSerifless"
+ selector."c/descBase" = "serifless"
+ selector.cCurlyTail = "serifless"
+ selector.cHookTop = "unilateralSerifed"
+ selector.oOpen = "serifless"
+ selector."oOpen/descBase" = "bottomSerifed"
+ selector."c/topSerif" = "serifless"
+@@ -10176,15 +10190,33 @@
+ 
+ [prime.apl-form.variants.enable]
+ selector.__enableAplForm = "enable"
+ description = "Enable harmonized alternate forms APL operators"
+ snapshotFeatureApplication = { "APLF" = 1 }
+ 
++# Comfy Code: append after existing primes to preserve their CV tag allocation.
++[prime.vertical-dashed-arrows]
++sampler = "⇡⇣"
++tagKind = "symbol"
++
++[prime.vertical-dashed-arrows.variants.standard]
++rank = 1
++description = "Standard-height vertical dashed arrows"
++selector.dashArrowUp = "standard"
++selector.dashArrowDown = "standard"
++
++[prime.vertical-dashed-arrows.variants.short]
++rank = 2
++description = "Vertical dashed arrows at 75% height (Comfy Code)"
++selector.dashArrowUp = "short"
++selector.dashArrowDown = "short"
++
+ ###################################################################################################
+ 
+ [default.design]
++vertical-dashed-arrows = "standard"
+ # Capitals
+ capital-a = "straight-serifless"
+ capital-b = "standard-serifless"
+ capital-c = "serifless"
+ capital-d = "standard-serifless"
+ capital-e = "serifless"
+--- a/packages/font-glyphs/src/letter/latin/c.ptl
++++ b/packages/font-glyphs/src/letter/latin/c.ptl
+@@ -125,12 +125,13 @@
+ 		export : define [full]    : composite-proc [base]    [topSerif]    [botSerif]
+ 		export : define [revFull] : composite-proc [revBase] [revTopSerif] [revBotSerif]
+ 
+ 	glyph-block-export CConfig
+ 	define CConfig : object
+ 		serifless                  { SLAB-NONE      SLAB-NONE      }
++		openSerifless              { SLAB-NONE      SLAB-NONE      }
+ 		bottomSerifed              { SLAB-NONE      SLAB-CLASSICAL }
+ 		bottomInwardSerifed        { SLAB-NONE      SLAB-INWARD    }
+ 		unilateralSerifed          { SLAB-CLASSICAL SLAB-NONE      }
+ 		bilateralSerifed           { SLAB-CLASSICAL SLAB-CLASSICAL }
+ 		unilateralInwardSerifed    { SLAB-INWARD    SLAB-NONE      }
+ 		bilateralInwardSerifed     { SLAB-INWARD    SLAB-INWARD    }
+@@ -172,12 +173,14 @@
+ 
+ 		create-glyph "c.\(suffix)" : glyph-proc
+ 			include : MarkSet.e
+ 			local lf : CLetterForm [DivFrame 1] sty styBot XH 0
+ 				ada -- SmallArchDepthA
+ 				adb -- SmallArchDepthB
++				# Only the opt-in form shortens the terminals; metrics stay unchanged.
++				hook -- [if (suffix === "openSerifless") (Hook * 0.70) Hook]
+ 			include : lf.full
+ 
+ 		create-glyph "c/centKernelStd.\(suffix)" : glyph-proc
+ 			set-width 0
+ 			set-mark-anchor 'cvDecompose' Middle (XH / 2)
+ 			local lf : CLetterForm [DivFrame 1] sty styBot XH 0
+--- a/packages/font-glyphs/src/letter/cyrillic/ze.ptl
++++ b/packages/font-glyphs/src/letter/cyrillic/ze.ptl
+@@ -480,12 +480,14 @@
+ 	select-variant 'cyrl/dzjeKomi' 0x507 (follow -- 'cyrl/ze/topSerif')
+ 
+ 	select-variant 'cyrl/Ksi/base' (follow -- 'cyrl/Ze/topSerif')
+ 	select-variant 'cyrl/ksi/base' (follow -- 'cyrl/ze/topSerif')
+ 
+ 	select-variant 'Tresillo' 0xA72A (follow -- 'C') (shapeFrom -- 'cyrl/revZe')
++	# Tresillo follows c's selector but keeps its original shape.
++	alias 'tresillo.openSerifless' null 'tresillo.serifless'
+ 	select-variant 'tresillo' 0xA72B (follow -- 'c')
+ 
+ 	derive-multi-part-glyphs 'cyrl/Dhe.BSH' null { 'cyrl/Ze' 'invCommaBelow' } : lambda [srcs gr] : glyph-proc
+ 		local { base mark } srcs
+ 		define baseGlyph : query-glyph base
+ 		include : with-transform
+--- a/packages/font-glyphs/src/symbol/arrow/dashed.ptl
++++ b/packages/font-glyphs/src/symbol/arrow/dashed.ptl
+@@ -126,15 +126,23 @@
+ 			Arrow.Head.shape x1 y1 xTail yTail size
+ 			difference bar dash
+ 
+ 
+ 	# Glyphs
+ 	MkArrow.single DashedArrowShape [MangleName 'dashArrowLeft']  [MangleUnicode 0x21E0] arrowRSB SymbolMid arrowSB SymbolMid
+-	MkArrow.single DashedArrowShape [MangleName 'dashArrowUp']    [MangleUnicode 0x21E1] arrowMidX arrowBot arrowMidX arrowTop
+ 	MkArrow.single DashedArrowShape [MangleName 'dashArrowRight'] [MangleUnicode 0x21E2] arrowSB SymbolMid arrowRSB SymbolMid
+-	MkArrow.single DashedArrowShape [MangleName 'dashArrowDown']  [MangleUnicode 0x21E3] arrowMidX arrowTop arrowMidX arrowBot
++
++	# Draw both variants; the build plan selects the default glyphs.
++	foreach { suffix heightScale } { { "standard" 1 } { "short" 0.75 } } : do
++		local top : SymbolMid + arrowHeight * heightScale / 2
++		local bot : SymbolMid - arrowHeight * heightScale / 2
++		MkArrow.single DashedArrowShape "\[MangleName 'dashArrowUp'].\(suffix)"   null arrowMidX bot arrowMidX top
++		MkArrow.single DashedArrowShape "\[MangleName 'dashArrowDown'].\(suffix)" null arrowMidX top arrowMidX bot
++
++	select-variant [MangleName 'dashArrowUp']   [MangleUnicode 0x21E1] (follow -- 'dashArrowUp')
++	select-variant [MangleName 'dashArrowDown'] [MangleUnicode 0x21E3] (follow -- 'dashArrowDown')
+ 
+ 	MkArrow.single DashedTrigArrowShape [MangleName 'trigDashArrowLeft']  [MangleUnicode 0x2B6A] arrowRSB SymbolMid arrowSB SymbolMid
+ 	MkArrow.single DashedTrigArrowShape [MangleName 'trigDashArrowUp']    [MangleUnicode 0x2B6B] arrowMidX arrowBot arrowMidX arrowTop
+ 	MkArrow.single DashedTrigArrowShape [MangleName 'trigDashArrowRight'] [MangleUnicode 0x2B6C] arrowSB SymbolMid arrowRSB SymbolMid
+ 	MkArrow.single DashedTrigArrowShape [MangleName 'trigDashArrowDown']  [MangleUnicode 0x2B6D] arrowMidX arrowTop arrowMidX arrowBot
+ 

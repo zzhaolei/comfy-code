@@ -1,0 +1,9 @@
+services:
+  fonts:
+    image: comfy-code-builder:local
+    build: .
+    environment:
+      BUILD_JOBS: ${BUILD_JOBS:-2}
+    volumes:
+      - ./private-build-plans.toml:/work/private-build-plans.toml:ro
+      - ./dist/docker:/opt/iosevka/dist
