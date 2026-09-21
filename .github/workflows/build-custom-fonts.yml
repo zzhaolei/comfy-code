@@ -6,8 +6,8 @@ on:
       - main
     paths:
       - "private-build-plans.toml"
+      - "private-parameters.toml"
       - "IOSEVKA_VERSION"
-      - ".github/patches/**"
       - ".github/scripts/get-all-families-in-private-build-plan/**"
       - ".github/workflows/build-custom-fonts.yml"
   workflow_dispatch:
@@ -80,17 +80,11 @@ jobs:
           repository: be5invis/iosevka
           path: iosevka
 
-      - name: Copy Custom Build Plans
+      - name: Copy Custom Build Configuration
         shell: bash
         run: |
           cp private-build-plans.toml iosevka/private-build-plans.toml
-
-      - name: Register Custom Glyph Variants
-        shell: bash
-        working-directory: iosevka
-        run: |
-          git apply --check ../.github/patches/iosevka-custom-variants.patch
-          git apply ../.github/patches/iosevka-custom-variants.patch
+          cp private-parameters.toml iosevka/params/private-parameters.toml
 
       - name: Build Fonts
         shell: bash

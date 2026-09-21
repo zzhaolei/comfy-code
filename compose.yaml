@@ -6,4 +6,5 @@ services:
       BUILD_JOBS: ${BUILD_JOBS:-2}
     volumes:
       - ./private-build-plans.toml:/work/private-build-plans.toml:ro
+      - ./private-parameters.toml:/work/private-parameters.toml:ro
       - ./dist/docker:/opt/iosevka/dist

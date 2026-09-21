@@ -1,0 +1,7 @@
+# Iosevka's native parameter overlay, copied to params/private-parameters.toml.
+# Apply multipliers after the default weight parameters are interpolated.
+# These are shared parameters: related letters and arrows also change.
+# Use 1.0 for either multiplier to restore that parameter's upstream value.
+[shapeWeight-serifs-sans.multiplies]
+hook = 0.70
+arrowHeight = 0.75

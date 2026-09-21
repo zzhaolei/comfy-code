@@ -31,8 +31,9 @@ if (mode === "preview") {
   };
 }
 
-// Only the container's copy is changed; the mounted plan is read-only.
+// Only the container's copies are changed; the mounted configuration is read-only.
 fs.writeFileSync("private-build-plans.toml", toml.stringify(config));
+fs.copyFileSync("/work/private-parameters.toml", "params/private-parameters.toml");
 const target = `${targets[mode]}::${family}`;
 console.log(`Building ${target} with ${jobs} concurrent jobs.`);
 const result = spawnSync("npm", ["run", "build", "--", target, `--jCmd=${jobs}`], {
