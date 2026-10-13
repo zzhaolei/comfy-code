@@ -85,13 +85,6 @@ jobs:
         run: |
           cp private-build-plans.toml iosevka/private-build-plans.toml
 
-      - name: Register Custom Glyph Variants
-        shell: bash
-        working-directory: iosevka
-        run: |
-          git apply --check ../.github/patches/iosevka-custom-variants.patch
-          git apply ../.github/patches/iosevka-custom-variants.patch
-
       - name: Build Fonts
         shell: bash
         working-directory: iosevka
