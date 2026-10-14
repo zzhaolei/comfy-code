@@ -12,9 +12,11 @@ description = "Comfy Code is a custom build of Iosevka, a monospace font family 
 urlVendor = "https://github.com/zzhaolei/comfy-code"
 
 [buildPlans.ComfyCode.variants.design]
+one = "base-flat-top-serif"
 two = "straight-neck-serifless"
 five = "oblique-flat-serifless"
 eight = "two-circles"
+zero = "dotted"
 capital-d = "more-rounded-serifless"
 capital-g = "toothless-rounded-serifless-hooked"
 capital-q = "crossing"

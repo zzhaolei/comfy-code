@@ -262,7 +262,6 @@ jobs:
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
             "abcdefghijklmnopqrstuvwxyz",
             "0123456789",
-            "c ç ć č   ⇡ ⇣",
             "!@#$%^&*()[]{}<>?/\\|+-=_;:,.\"'",
           ]
           for line in specimen_lines:

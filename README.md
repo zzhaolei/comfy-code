@@ -56,21 +56,6 @@ Preview fonts appear in `dist/docker/ComfyCodePreview/TTF-Unhinted/` and use the
 
 The default is two concurrent jobs. To reduce memory usage, use `BUILD_JOBS=1 docker compose run --build --rm fonts preview`. Keep `--build` when changing `IOSEVKA_VERSION` or Docker build files so the image includes those changes.
 
-## Custom Glyph Shapes
-
-Custom glyphs are drawn with Iosevka's parametric geometry and selected in `private-build-plans.toml`:
-
-```toml
-[buildPlans.ComfyCode.variants.design]
-c = "open-serifless"
-vertical-dashed-arrows = "short"
-```
-
-`open-serifless` reduces lowercase `c`'s terminal depth to 70%. `short` draws `⇡` / `⇣` (U+21E1 / U+21E3) at 75% height, preserving arrowhead size and stroke thickness. Both adapt to the font's weight, width, and slope. Set `c = "serifless"` and `vertical-dashed-arrows = "standard"` to restore the upstream shapes. Individual slopes can override these choices in `variants.upright` or `variants.italic`.
-
-These two options are Comfy Code extensions, not built-in Iosevka options. The workflow applies [the variant registration and drawing code](.github/patches/iosevka-custom-variants.patch) before compiling. The original variants remain available; adding the extension alone does not change the default shapes. A plan file cannot contain glyph outlines by itself.
-
-For local builds, copy `private-build-plans.toml` into the Iosevka checkout, run `git apply /path/to/comfy-code/.github/patches/iosevka-custom-variants.patch` there once, then build normally. When updating the version in `IOSEVKA_VERSION`, verify that the extension still applies and inspect the generated glyphs.
 
 ## License
 
