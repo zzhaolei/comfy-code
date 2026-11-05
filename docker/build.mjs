@@ -3,9 +3,9 @@ import { spawnSync } from "node:child_process";
 import * as toml from "@iarna/toml";
 
 const mode = process.argv[2] ?? "preview";
-const targets = { preview: "ttf-unhinted", unhinted: "ttf-unhinted", full: "contents" };
+const targets = { preview: "ttf-unhinted", unhinted: "ttf-unhinted" };
 if (!Object.hasOwn(targets, mode) || process.argv.length > 3) {
-  console.error("Usage: docker compose run --build --rm fonts [preview|unhinted|full]");
+  console.error("Usage: docker compose run --build --rm fonts [preview|unhinted]");
   process.exit(1);
 }
 

@@ -9,7 +9,7 @@ A custom build of [Iosevka](https://github.com/be5invis/Iosevka) for comfortable
 - Upright and italic styles
 - Programming ligatures disabled
 
-- Hinted TTF, unhinted TTF, and webfont packages
+- Unhinted TTF package
 
 ## Specimen
 
@@ -29,13 +29,11 @@ The preview highlights Light, Regular, Medium, and Bold in both roman and italic
 
 ## Download & Install
 
-Download the [latest release](https://github.com/zzhaolei/comfy-code/releases/latest) and choose the package for your use case:
+Download the [latest release](https://github.com/zzhaolei/comfy-code/releases/latest):
 
-- `ComfyCode-hinted.zip` for desktop use
 - `ComfyCode-unhinted.zip` for unhinted TTF files
-- `ComfyCode-webfont.zip` for web projects
 
-Extract the archive, then install the TTF files through your operating system or use the included webfont files and CSS in your project.
+Extract the archive, then install the TTF files through your operating system.
 
 ## Build Locally with Docker
 
@@ -48,8 +46,6 @@ docker compose run --build --rm fonts preview
 # All configured weights, widths, and slopes as unhinted TTFs.
 docker compose run --build --rm fonts unhinted
 
-# All weights and all formats: hinted/unhinted TTF and webfonts.
-docker compose run --build --rm fonts full
 ```
 
 Preview fonts appear in `dist/docker/ComfyCodePreview/TTF-Unhinted/` and use the family name **Comfy Code Preview**, so you can install and compare them alongside Comfy Code. Full-family builds appear in `dist/docker/ComfyCode/`. On macOS, open the generated unhinted TTFs in Font Book to install them, then select the font in your editor.
