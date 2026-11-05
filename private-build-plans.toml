@@ -49,11 +49,6 @@ k = "straight-serifless"
 u = "toothed-serifless"
 y = "straight-turn-serifless"
 
-[buildPlans.ComfyCode.widths.Condensed]
-shape = 500
-menu = 3
-css = "condensed"
-
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600
 menu = 5
