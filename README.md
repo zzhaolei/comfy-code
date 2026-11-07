@@ -21,7 +21,7 @@ A quick at-a-glance view of letterforms, numerals, and punctuation.
 
 ## Weights & Italics
 
-The preview highlights Light, Regular, Medium, and Bold in both roman and italic. Releases include the full set of generated weights.
+The preview highlights Regular, Medium, SemiBold, and Bold in both roman and italic. Releases include the full set of generated weights.
 
 <p align="center">
   <img src="asserts/image/weights.png" alt="Comfy Code weights and italics preview" width="720" />

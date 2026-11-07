@@ -13,39 +13,60 @@ urlVendor = "https://github.com/zzhaolei/comfy-code"
 
 [buildPlans.ComfyCode.variants.design]
 one = "base"
-two = "straight-neck-serifless"
-four = "closed-serifless"
 five = "oblique-flat-serifless"
-eight = "two-circles"
+six = "open-contour"
+seven = "bend-serifless"
+eight = "crossing-asymmetric"
+nine = "open-contour"
 zero = "oval-long-dotted"
 capital-d = "more-rounded-serifless"
-capital-g = "toothless-rounded-serifless-hooked"
+capital-g = "toothless-corner-serifless-hooked"
+capital-k = "symmetric-touching-serifless"
+capital-m = "slanted-sides-hanging-serifless"
 a = "double-storey-toothless-corner"
-f = "flat-hook-serifless-crossbar-at-x-height"
+b = "toothless-corner-serifless"
+d = "toothless-corner-serifless"
+f = "flat-hook-serifless"
 g = "single-storey-earless-corner"
 i = "serifed-semi-tailed"
 j = "flat-hook-serifed"
+k = "symmetric-touching-serifless"
 l = "serifed-semi-tailed"
-m = "flat-top-short-leg-serifless"
+m = "earless-corner-double-arch-short-leg-serifless"
+n = "earless-corner-straight-serifless"
+p = "earless-corner-serifless"
+q = "earless-corner-straight-serifless"
 r = "compact-serifless"
 t = "flat-hook-short-neck"
+u = "toothless-rounded-serifless"
 y = "straight-turn-serifless"
-asterisk = "penta-mid"
-paren = "large-contour"
+underscore = "low"
 guillemet = "straight"
 number-sign = "slanted"
-percent = "rings-continuous-slash"
+dollar = "open-cap"
 
 [buildPlans.ComfyCode.variants.italic]
-a = "single-storey-flat-top-tailed"
-d = "toothed-serifless"
-f = "flat-hook-tailed-crossbar-at-x-height"
-g = "single-storey-flat-top-serifless"
-i = "serifed-semi-tailed"
-j = "flat-hook-serifed"
-k = "straight-serifless"
-u = "toothed-serifless"
-y = "straight-turn-serifless"
+f = "flat-hook-tailed"
+
+[buildPlans.ComfyCode.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.ComfyCode.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.ComfyCode.weights.Medium]
+shape = 500
+menu = 500
+css = 500
+
+[buildPlans.ComfyCode.weights.SemiBold]
+shape = 600
+menu = 600
+css = 600
 
 [buildPlans.ComfyCode.widths.Normal]
 shape = 600

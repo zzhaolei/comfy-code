@@ -189,12 +189,12 @@ jobs:
           pangram = "A quick brown fox jumps over the lazy dog."
 
           preview_entries = [
-            ("Light", f"{family}-Light.ttf"),
-            ("Light Italic", f"{family}-LightItalic.ttf"),
             ("Regular", f"{family}-Regular.ttf"),
             ("Regular Italic", f"{family}-Italic.ttf"),
             ("Medium", f"{family}-Medium.ttf"),
             ("Medium Italic", f"{family}-MediumItalic.ttf"),
+            ("SemiBold", f"{family}-SemiBold.ttf"),
+            ("SemiBold Italic", f"{family}-SemiBoldItalic.ttf"),
             ("Bold", f"{family}-Bold.ttf"),
             ("Bold Italic", f"{family}-BoldItalic.ttf"),
           ]
@@ -212,9 +212,9 @@ jobs:
             weight_draw, display_name, y, weight_title_font, weight_size[0]
           )
           y += 30
-          for _, filename in preview_entries:
+          for label, filename in preview_entries:
             sample_font = load_font(fonts_by_name[filename], 52)
-            weight_draw.text((80, y), pangram, font=sample_font, fill="black")
+            weight_draw.text((80, y), f"{label}: {pangram}", font=sample_font, fill="black")
             y += int(sample_font.size * 1.7)
 
           weight_path = OUTPUT_DIR / "weights.png"
