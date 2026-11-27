@@ -1,6 +1,6 @@
 [buildPlans.ComfyCode]
 family = "Comfy Code"
-spacing = "fixed"
+spacing = "normal"
 serifs = "sans"
 noCvSs = true
 exportGlyphNames = true
