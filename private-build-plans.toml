@@ -7,9 +7,13 @@ exportGlyphNames = true
 noLigation = true
 
 [buildPlans.ComfyCode.namingOverride]
-manufacturer = "zzhaolei"
-description = "Comfy Code is a custom build of Iosevka, a monospace font family for programming."
+copyright = "Copyright (c) 2026, zhaolei."
+manufacturer = "zhaolei"
+designer = "zhaolei"
+description = "Comfy Code is a customized monospace typeface based on Iosevka, designed for programming and text editing."
 urlVendor = "https://github.com/zzhaolei/comfy-code"
+urlDesigner = "https://github.com/zzhaolei"
+sampleText = "Comfy Code 0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
 
 [buildPlans.ComfyCode.variants.design]
 one = "base"
