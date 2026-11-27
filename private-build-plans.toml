@@ -56,6 +56,9 @@ underscore = "low"
 a = "single-storey-earless-corner-tailed"
 f = "flat-hook-tailed"
 
+[buildPlans.ComfyCode.subset.exclude]
+text = "⇡⇣✅❌"
+
 [buildPlans.ComfyCode.weights.Regular]
 shape = 400
 menu = 400
